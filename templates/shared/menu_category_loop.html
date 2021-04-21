@@ -1,0 +1,10 @@
+<ul class="ne-dropdown-menu">
+    {% for category in category.children.get_active_category %}
+        <li>
+            <a href="{% url "news:news_list_category" category.name %}">{{ category.title }}</a>
+            {% if category.children.get_active_category %}
+                {% include "shared/menu_category_loop.html" %}
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

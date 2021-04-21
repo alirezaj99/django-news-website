@@ -1,0 +1,223 @@
+{% extends "shared/_Mainlayout.html" %}
+{% load static %}
+{% load render_partial %}
+{% load jalali_tags %}
+
+{% block title %}
+    سایت خبری - {{ news.title }} - {{ news.id }}
+{% endblock %}
+
+{% block page_option %}
+
+    <section class="container">
+        <div class="bg-body box-layout">
+            <section class="breadcrumbs-area"
+                     style="background-image: url({{ news.get_image_or_default }})">
+                <div class="container">
+                    <div class="breadcrumbs-content">
+                        <h1>
+                            {{ news.category_to_str }}
+                        </h1>
+                        <ul>
+                            <li>
+                                <a href="{% url "home_page" %}">خانه</a> -
+                            </li>
+
+                            {% for category in  news.categories.all %}
+                                <li>
+                                    <a href="{% url "news:news_list_category" category.name %}"> {{ category.title }} </a>
+                                    -
+                                </li>
+                            {% endfor %}
+                            <li>
+                                <a href="{{ news.get_url }}"> {{ news.title }} </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+{% endblock %}
+
+
+{% block content %}
+    <section class="bg-body section-space-less30">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+
+                    {% if news.is_special %}
+                        {% if user.is_authenticated and user.is_special_user or user == news.author or user.is_superuser %}
+                            <div class="news-details-layout1">
+                                <div class="position-relative mb-30">
+                                    <img src="{{ news.get_image_or_default }}" alt="{{ news.title }}" class="img-fluid">
+                                    <div class="topic-box-top-sm">
+                                        <div class="topic-box-sm color-cinnabar mb-20">
+                                            {% for category in  news.categories.all %}
+                                                {{ category.title }}
+                                            {% endfor %}</div>
+                                    </div>
+                                </div>
+                                <h2 class="title-semibold-dark size-c30">{{ news.title }} <span
+                                        class="badge badge-danger"
+                                        style="color:#ffffff;font-size: 15px">ویژه</span></h2>
+                                <ul class="post-info-dark mb-30">
+                                    <li>
+                                        <a href="{% url 'author:author_list' news.author.username %}">
+                                            <span>توسط</span> {{ news.author.get_full_name }} </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>{{ news.jtime }}</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>{{ news.hits.count }}</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-comments" aria-hidden="true"></i>{{ comment_count }}</a>
+                                    </li>
+                                </ul>
+                                <p>{{ news.description|safe }}</p>
+                                <ul class="blog-tags item-inline">
+                                    <li>برچسب ها</li>
+                                    {% for tag in news.tags.get_active_tag %}
+                                        <li>
+                                            <a href="{% url "tags:news_list_tag" tag.slug %}"># {{ tag.title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                {% if previous_news and next_news %}
+                                    <div class="row no-gutters divider blog-post-slider">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                                            <a href="{{ previous_news.get_url }}" class="prev-article">
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>مقاله قبلی</a>
+                                            <a href="{{ previous_news.get_url }}"><h3
+                                                    class="title-medium-dark pr-50">{{ previous_news.title }}</h3></a>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-left">
+                                            <a href="{{ next_news.get_url }}" class="next-article">مقاله بعدی
+                                                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="{{ next_news.get_url }}"><h3
+                                                    class="title-medium-dark pl-50">{{ next_news.title }}</h3></a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% include 'news/news_comment_list.html' with comment=comment comment_count=comment_count %}
+                                {% include 'news/news_comment_create.html' with form=form %}
+                            </div>
+                        {% else %}
+                            <div class="position-relative mb-30">
+                                <img src="{{ news.get_image_or_default }}" alt="{{ news.title }}" class="img-fluid">
+                                <div class="topic-box-top-sm">
+                                    <div class="topic-box-sm color-cinnabar mb-20">
+                                        {% for category in  news.categories.all %}
+                                            {{ category.title }}
+                                        {% endfor %}</div>
+                                </div>
+                            </div>
+                            <h2 class="title-semibold-dark size-c30">{{ news.title }}
+                            </h2>
+                            <ul class="post-info-dark mb-30">
+                                <li>
+                                    <a href="{% url 'author:author_list' news.author.username %}">
+                                        <span>توسط</span> {{ news.author.get_full_name }} </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>{{ news.jtime }}</a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>{{ news.hits.count }}</a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-comments" aria-hidden="true"></i>20</a>
+                                </li>
+                            </ul>
+                            <p>{{ news.description|safe|truncatewords:30 }}</p>
+                            <ul class="blog-tags item-inline">
+                                <li>برچسب ها</li>
+                                {% for tag in news.tags.get_active_tag %}
+                                    <li>
+                                        <a href="{% url "tags:news_list_tag" tag.slug %}"># {{ tag.title }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <p class="alert alert-warning text-center">این خبر ویژه است و برای مشاهده ی ادامه آن باید <a
+                                    href="#">اشتراک ویژه</a> تهیه کنید.</p>
+                        {% endif %}
+                    {% else %}
+                        <div class="news-details-layout1">
+                            <div class="position-relative mb-30">
+                                <img src="{{ news.get_image_or_default }}" alt="{{ news.title }}" class="img-fluid">
+                                <div class="topic-box-top-sm">
+                                    <div class="topic-box-sm color-cinnabar mb-20">
+                                        {% for category in  news.categories.all %}
+                                            {{ category.title }}
+                                        {% endfor %}</div>
+                                </div>
+                            </div>
+                            <h2 class="title-semibold-dark size-c30">{{ news.title }}</h2>
+                            <ul class="post-info-dark mb-30">
+                                <li>
+                                    <a href="{% url 'author:author_list' news.author.username %}">
+                                        <span>توسط</span> {{ news.author.get_full_name }} </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>{{ news.jtime }}</a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>{{ news.hits.count }}</a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-comments" aria-hidden="true"></i>{{ comment_count }}</a>
+                                </li>
+                            </ul>
+                            <p>{{ news.description|safe }}</p>
+                            <ul class="blog-tags item-inline">
+                                <li>برچسب ها</li>
+                                {% for tag in news.tags.get_active_tag %}
+                                    <li>
+                                        <a href="{% url "tags:news_list_tag" tag.slug %}"># {{ tag.title }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            {% if previous_news and next_news %}
+                                <div class="row no-gutters divider blog-post-slider">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                                        <a href="{{ previous_news.get_url }}" class="prev-article">
+                                            <i class="fa fa-angle-right" aria-hidden="true"></i>مقاله قبلی</a>
+                                        <a href="{{ previous_news.get_url }}"><h3
+                                                class="title-medium-dark pr-50">{{ previous_news.title }}</h3></a>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-left">
+                                        <a href="{{ next_news.get_url }}" class="next-article">مقاله بعدی
+                                            <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="{{ next_news.get_url }}"><h3
+                                                class="title-medium-dark pl-50">{{ next_news.title }}</h3></a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% include 'news/news_comment_list.html' with comment=comment comment_count=comment_count %}
+                            {% include 'news/news_comment_create.html' with form=form %}
+                        </div>
+                    {% endif %}
+                </div>
+                {% block sidebar %}
+                    {% render_partial "news_site.views.sidebar" %}
+                {% endblock %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+

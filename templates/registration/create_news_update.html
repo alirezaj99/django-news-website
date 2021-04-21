@@ -1,0 +1,73 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block title %}{% block title_header %}
+    ایجاد خبر
+{% endblock %}{% endblock %}
+
+{% block content %}
+
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title mb-0 float-left">ایجاد خبر</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div style="margin: 20px 0" class="col-12 text-center">
+                            {{ form.title|add_class:"form-control"|as_crispy_field }}
+                        </div>
+
+
+                        <div style="margin: 20px 0" class="col-12 text-center">
+                            {{ form.media }}
+                            {{ form.description|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-6">
+                            {{ form.categories|add_class:"form-control"|as_crispy_field }}
+                        </div>
+
+                        <div style="margin: 20px 0" class="col-6">
+                            {{ form.tags|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-6">
+                            {{ form.image|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-6">
+                            {{ form.time|add_class:"form-control"|as_crispy_field }}
+                        </div>
+
+                        {% if user.is_superuser %}
+                            <div style="margin: 20px 0" class="col-6">
+                                {{ form.author|add_class:"form-control"|as_crispy_field }}
+                            </div>
+                            <div style="margin: 20px 0" class="col-6">
+                                {{ form.status|add_class:"form-control"|as_crispy_field }}
+                            </div>
+                        {% endif %}
+                        <div style="margin: 20px 0" class="col-6">
+                            {{ form.is_special|as_crispy_field }}
+                        </div>
+                        {% if user.is_superuser and request.resolver_match.kwargs.pk %}
+                            <div style="margin: 20px 0" class="col-11">
+                                <button class="btn btn-success btn-block" type="submit">ارسال خبر</button>
+                            </div>
+                            <div style="margin: 20px 0" class="col-1">
+                                <a class="btn btn-danger"
+                                   href="{% url 'account:news_delete' request.resolver_match.kwargs.pk %}">حذف خبر</a>
+                            </div>
+                        {% else %}
+                            <div style="margin: 20px 0" class="col-12">
+                                <button class="btn btn-success btn-block" type="submit">ارسال خبر</button>
+                            </div>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

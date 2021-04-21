@@ -1,0 +1,12 @@
+asgiref==3.3.1
+Django==3.1.7
+django-ckeditor==6.0.0
+django-crispy-forms==1.11.1
+django-jalali-date==0.3.1
+django-js-asset==1.2.2
+django-render-partial==0.4
+django-widget-tweaks==1.4.8
+jdatetime==3.6.2
+Pillow==8.1.0
+pytz==2021.1
+sqlparse==0.4.1

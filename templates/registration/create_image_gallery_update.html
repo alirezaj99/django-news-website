@@ -1,0 +1,59 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block title %}{% block title_header %}
+    ایجاد تصویر برای گالری
+{% endblock %}{% endblock %}
+
+{% block content %}
+
+    <div class="col-md-12">
+        {% if form.non_field_errors %}
+            <div class="errors">
+                {% for error in form.non_field_errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title mb-0 float-left">ایجاد تصویر برای گالری</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div style="margin: 20px 0" class="col-6">
+                            {{ form.title|add_class:"form-control"|as_crispy_field }}
+                        </div>
+
+                        <div style="margin: 20px 0" class="col-6">
+                            {{ form.image|add_class:"form-control"|as_crispy_field }}
+                        </div>
+
+                        <div style="margin: 20px 0" class="col-12">
+                            {{ form.gallery|add_class:"form-control"|as_crispy_field }}
+                        </div>
+
+                        {% if user.is_superuser %}
+                            <div style="margin: 20px 0" class="col-6">
+                                {{ form.status|add_class:"form-control"|as_crispy_field }}
+                            </div>
+
+                            <div style="margin: 20px 0" class="col-6">
+                                {{ form.author|add_class:"form-control"|as_crispy_field }}
+                            </div>
+
+                        {% endif %}
+                        <div style="margin: 20px 0" class="col-12">
+                            <button class="btn btn-success btn-block" type="submit">ارسال تصویر برای گالری</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'shared/_Mainlayout.html' %}
+{% load static %}
+{% block title %}گالری تصاویر{% endblock %}
+{% block page_option %}
+
+    <section class="container">
+        <div class="bg-body box-layout ">
+            <section class="breadcrumbs-area"
+                     style="background-image: url({% static 'img/banner/breadcrumbs-banner.jpg' %})">
+                <div class="container">
+                    <div class="breadcrumbs-content">
+                        <h1>گالری تصاویر</h1>
+                        <ul>
+                            <li>
+                                <a href="{% url "home_page" %}">خانه</a> -
+                            </li>
+                            <li>
+                                <a href="{% url "gallery:gallery_list" %}">گالری تصاویر</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+{% endblock %}
+{% block content %}
+    <section class="bg-body section-space-default">
+        <div class="container menu-list-wrapper">
+            <div class="row zoom-gallery menu-list">
+                {% for gallery in page_obj %}
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12 menu-item">
+                        <div class="gallery-layout-1 mb-40 border-bottom pb-10">
+
+                            <div class="img-grayscale-hover mb-30">
+                                <a href="{% url 'gallery:gallery_detail' gallery.id %}" class=" ">
+                                    <img src="{{ gallery.image.url }}" alt="{{ gallery.title }}"
+                                         class="width-100 img-fluid">
+                                </a>
+
+                            </div>
+
+                            <div class="post-date-dark">
+                                <ul>
+                                    <li>
+                                        <span>عکاس</span>
+                                        {{ gallery.photographer }}
+                                    </li>
+                                    <li>
+                                            <span>
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            </span>{{ gallery.jtime_date }}
+                                    </li>
+                                </ul>
+                            </div>
+                            <h3 class="title-semibold-dark size-c22">
+                                <a href="{% url 'gallery:gallery_detail' gallery.id %}">{{ gallery.title }}</a>
+                            </h3>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+            {% if page_obj %}
+
+                <div class="row mt-20-r mb-30">
+                    <div class="col-sm-6 col-12">
+                        <div class="pagination-btn-wrapper text-center--xs mb15--xs">
+                            <ul>
+                                {% for page in paginator.page_range %}
+                                    {% if page == page_obj.number %}
+                                        <li class="active"><a href="?page={{ page }}">{{ page }}</a></li>
+                                    {% else %}
+                                        <li><a href="?page={{ page }}">{{ page }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12">
+                        <div class="pagination-result text-left pt-10 text-center--xs">
+                            <p class="mb-none">صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

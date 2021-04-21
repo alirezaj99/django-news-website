@@ -1,0 +1,73 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block title %}{% block title_header %}
+    ویرایش تبلیغات سایت
+{% endblock %}{% endblock %}
+
+{% block content %}
+
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title mb-0 float-left">ویرایش تبلیغات سایت</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div style="margin: 20px 0" class="col-4">
+                            {{ form.title_header_ad|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-4">
+                            {{ form.link_header_ad|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-4">
+                            {{ form.header_ad|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-4">
+                            {{ form.title_sidebar_ad_1|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-4">
+                            {{ form.link_sidebar_ad_1|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-4">
+                            {{ form.sidebar_ad_1|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-4">
+                            {{ form.title_sidebar_ad_2|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                         <div style="margin: 20px 0" class="col-4">
+                            {{ form.link_sidebar_ad_2|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-4">
+                            {{ form.sidebar_ad_2|add_class:"form-control"|as_crispy_field }}
+                        </div>
+
+                        <div style="margin: 20px 0" class="col-4">
+                            {{ form.title_sidebar_ad_3|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                         <div style="margin: 20px 0" class="col-4">
+                            {{ form.link_sidebar_ad_3|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-4">
+                            {{ form.sidebar_ad_3|add_class:"form-control"|as_crispy_field }}
+                        </div>
+
+
+                        <div style="margin: 20px 0" class="col-4">
+                            {{ form.active|add_class:"form-control"|as_crispy_field }}
+                        </div>
+
+                        <div style="margin: 20px 0" class="col-12">
+                            <button class="btn btn-success btn-block" type="submit">ارسال تبلیغات سایت</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

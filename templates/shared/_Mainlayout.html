@@ -1,0 +1,93 @@
+{% load static %}
+{% load render_partial %}
+<!DOCTYPE html>
+<html class="no-js" lang="fa">
+
+{% render_partial "news_site.views.header_references" %}
+<title>{% block title %}{% endblock %}</title>
+
+<body>
+<!--[if lt IE 8]>
+{#<p class="browserupgrade">شما از یک مرورگر <strong>تاریخ گذشته</strong> استفاده می کنید. لطفا <a#}
+{#        href="http://browsehappy.com/">مرورگر خود را به روز کنید</a> تا تجربه بهتری داشته باشید.</p>#}
+<![endif]-->
+<!-- Add your site or application content here -->
+<!-- Preloader Start Here -->
+<div id="preloader">
+    <div class="text-center middle">
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+<!-- Preloader End Here -->
+<div id="wrapper">
+    <!-- Header Area Start Here -->
+    {% render_partial "news_site.views.header" %}
+    {% render_partial "news_site.views.hot_news" %}
+
+    {% block page_option %}{% endblock %}
+
+    <section class="container">
+        <div class="bg-body box-layout">
+            {% block content %}
+                {% block sidebar %}{% endblock %}
+            {% endblock %}
+
+        </div>
+    </section>
+
+    {% render_partial "news_site.views.footer" %}
+    <!-- Footer Area End Here -->
+    <!-- Modal Start-->
+    {#    <div class="modal fade" id="myModal" role="dialog">#}
+    {#        <div class="modal-dialog">#}
+    {#            <div class="modal-content">#}
+    {#                <div class="modal-header">#}
+    {#                    <button type="button" class="close" data-dismiss="modal">×</button>#}
+    {#                    <div class="title-login-form">ورود</div>#}
+    {#                </div>#}
+    {#                <div class="modal-body">#}
+    {#                    <div class="login-form">#}
+    {#                        <form>#}
+    {#                            <label>نام کاربری یا ایمیل *</label>#}
+    {#                            <input type="text" placeholder="نام کاربری یا ایمیل">#}
+    {#                            <label>رمز عبور *</label>#}
+    {#                            <input type="password" placeholder="رمز عبور">#}
+    {#                            <div class="checkbox checkbox-primary">#}
+    {#                                <input id="checkbox" type="checkbox" checked>#}
+    {#                                <label for="checkbox">به خاطر سپاری</label>#}
+    {#                            </div>#}
+    {#                            <button type="submit" value="Login">ورود</button>#}
+    {#                            <button class="form-cancel" type="submit" value="">انصراف</button>#}
+    {#                            <label class="lost-password">#}
+    {#                                <a href="#">رمز عبور خود را فراموش کرده اید؟</a>#}
+    {#                            </label>#}
+    {#                        </form>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
+    <!-- Modal End-->
+    <!-- Offcanvas Menu Start -->
+    <div id="offcanvas-body-wrapper" class="offcanvas-body-wrapper">
+        <div id="offcanvas-nav-close" class="offcanvas-nav-close offcanvas-menu-btn">
+            <a href="#" class="menu-times re-point">
+                <span></span>
+                <span></span>
+            </a>
+        </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+</div>
+{% render_partial "news_site.views.footer_references" %}
+
+</body>
+
+{% render_partial "news_site.views.script_logo" %}
+
+</html>

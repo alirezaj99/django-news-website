@@ -1,0 +1,25 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block title %}{% block title_header %}
+    حذف دسته بندی اخبار
+{% endblock %}{% endblock %}
+
+{% block content %}
+
+    <div class="col-md-8 text-center mx-auto">
+        <div class="card card-danger">
+            <div class="card-header">
+                <h3 class="card-title mb-0 float-left py-2">حذف دسته بندی اخبار</h3>
+            </div>
+            <div class="card-body py-4">
+                <form method="post">{% csrf_token %}
+                    <p class="py-2">آیا از حذف دسته بندی « <span class="text-danger text-bold">{{ object.title }}</span> » مطمئن هستید ؟ </p>
+                    <input class="btn btn-danger" type="submit" value="حذف">
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

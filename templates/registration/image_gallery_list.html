@@ -1,0 +1,115 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}{% block title_header %}
+    لیست تصاویر
+{% endblock %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            {% if page_obj %}
+                <div class="card">
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover">
+                            <thead style="background-color:#7adeee">
+                            <tr>
+                                <th>عنوان تصویر</th>
+                                <th>تصویر</th>
+                                <th>گالری تصویر</th>
+                                <th>نویسنده</th>
+                                <th>زمان انتشار</th>
+                                <th>وضعیت</th>
+                                {% if user.is_superuser %}
+                                    <th>حذف</th>
+                                {% endif %}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for image in page_obj %}
+                                <tr>
+                                    {% if user.is_superuser or image.status == 'd' %}
+                                        <td>
+                                            <a href="{% url 'account:image_gallery_update' image.pk %}">{{ image.title }}</a>
+                                        </td>
+                                    {% else %}
+                                        <td>{{ image.title }}</td>
+                                    {% endif %}
+
+
+                                    <td>
+                                        {% if user.is_superuser or image.status == 'p' %}
+                                            <a target="_blank"
+                                               href="{{ image.image.url }}">{{ image.show_image_in_admin }}</a>
+                                        {% else %}
+                                            {{ image.show_image_in_admin }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ image.gallery }}</td>
+                                    <td>{{ image.author.get_full_name }}</td>
+                                    <td>{{ image.jtime }}</td>
+                                    <td>
+                                        {% if image.status == 'p' %}
+                                            <span class="badge badge-success">منتشر شده</span><BR>
+                                            <a target="_blank" href="{{ image.image.url }}"
+                                               class="badge badge-primary">نمایش تصویر</a>
+                                        {% else %}
+                                            <span class="badge badge-danger">پیش نویس</span><br>
+                                        {% endif %}
+                                        {% if user.is_superuser or image.status == 'd' %}
+                                            <br>  <a href="{% url 'account:image_gallery_update' image.pk %}">
+                                            <button class="badge badge-primary">ویرایش</button>
+                                        </a>
+                                        {% endif %}
+                                    </td>
+                                    {% if user.is_superuser %}
+                                        <td>
+
+                                            <a class="badge badge-danger"
+                                               href="{% url 'account:image_gallery_delete' image.pk %}">حذف
+                                            </a>
+                                        </td>
+
+                                    {% endif %}
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            {% else %}
+                <h4 class="alert alert-danger"> محتوایی برای نمایش وجود ندارد </h4>
+            {% endif %}
+            <!-- /.card -->
+            {% if page_obj %}
+
+                <div class="row mt-20-r mb-30">
+                    <div class="col-sm-6 col-12">
+                        <div class="pagination-btn-wrapper text-center--xs mb15--xs">
+                            <ul>
+                                {% for page in paginator.page_range %}
+                                    {% if page == page_obj.number %}
+                                        <li class="btn btn-dark" style="display: inline-block"><a style="color: #23ff27"
+                                                                                                  href="?page={{ page }}">{{ page }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="btn btn-dark" style="display: inline-block"><a style="color: #fff"
+                                                                                                  href="?page={{ page }}">{{ page }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12">
+                        <div class="pagination-result text-left pt-10 text-center--xs">
+                            <p class="mb-none">صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+        </div>
+    </div>{% endblock %}

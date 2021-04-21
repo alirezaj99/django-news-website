@@ -1,0 +1,72 @@
+{% extends "shared/_Mainlayout.html" %}
+{% load render_partial %}
+{% load static %}
+{% block title %}
+    {{ setting.site_title }}
+{% endblock %}
+{% block page_option %}
+    {% render_partial 'news_site.views.main_news' %}
+{% endblock %}
+{% block content %}
+    <div class="section-space-bottom-less30">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <div class="topic-border color-scampi mb-30">
+                    <div class="topic-box-lg color-scampi">اخبار جدید</div>
+                </div>
+                <div class="row">
+                    {% for news in page_obj %}
+
+                        <div class="col-xl-12 col-lg-6 col-md-6 col-sm-12">
+                            <div class="media media-none--lg mb-30">
+                                <div class="position-relative width-40">
+                                    <a href="{{ news.get_url }}" class="img-opacity-hover">
+                                        <img src="{{ news.get_image_or_default }}" alt="{{ news.title }}"
+                                             class="img-fluid">
+                                    </a>
+                                    <div class="topic-box-top-xs">
+                                        <div class="topic-box-sm color-cod-gray mb-20">
+
+                                            {{ news.category_to_str }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="media-body p-mb-none-child media-margin30">
+                                    <div class="post-date-dark">
+                                        <ul>
+                                            <li>
+                                                <span>توسط</span>
+                                                <a href="{% url 'author:author_list' news.author.username %}">{{ news.author.get_full_name }}</a>
+                                            </li>
+                                            <li>
+                                                            <span>
+                                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                            </span>{{ news.jtime }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <h3 class="title-semibold-dark size-lg mb-15">
+                                        <a href="{{ news.get_url }}">{{ news.title }}
+                                            {% if news.is_special %}
+                                                <span class="badge badge-danger" style="color:#ffffff">ویژه</span>
+                                            {% endif %}
+                                        </a>
+                                    </h3>
+                                    <p>{{ news.description|safe|truncatewords:23 }} <a
+                                            href="{{ news.get_url }}">ادامه
+                                        خبر</a></p>
+                                </div>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+                {% render_partial "news_site.views.most_visit_last_day" %}
+            </div>
+            {% block sidebar %}
+                {% render_partial "news_site.views.sidebar" %}
+            {% endblock %}
+        </div>
+    </div>
+
+{% endblock %}

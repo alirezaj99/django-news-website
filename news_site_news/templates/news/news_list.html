@@ -1,0 +1,160 @@
+{% extends "shared/_Mainlayout.html" %}
+{% load static %}
+{% load render_partial %}
+{% block title %}
+    {% if category.title %}
+        اخبار - {{ category.title }}
+    {% else %}
+        لیست اخبار
+    {% endif %}
+{% endblock %}
+{% block page_option %}
+
+    <section class="container">
+        <div class="bg-body box-layout ">
+            <section class="breadcrumbs-area"
+                     style="background-image: url({% static 'img/banner/breadcrumbs-banner.jpg' %})">
+                {% if category %}
+                    <div class="container">
+                        <div class="breadcrumbs-content">
+                            <h1>{{ category.title }}</h1>
+                            <ul>
+                                <li>
+                                    <a href="{% url "home_page" %}">خانه</a> -
+                                </li>
+                                <li>
+                                    {% if category.parent == None %}
+                                        <a href="{% url "news:news_list_category" category.name %}">{{ category.title }}</a>
+                                    {% else %}
+                                        <a href="{% url "news:news_list_category" category.parent.name %}">{{ category.parent }}</a>
+                                        -
+                                        <a href="{% url "news:news_list_category" category.name %}">{{ category.title }}</a>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                {% else %}
+                    <div class="container">
+                        <div class="breadcrumbs-content">
+                            {% if  request.GET.q %}
+                                <h1> جستجو  {{ request.GET.q }}</h1>
+                            {% else %}
+                                <h1>همه اخبار</h1>
+                            {% endif %}
+                            <ul>
+                                <li>
+                                    <a href="{% url "home_page" %}">خانه</a> -
+                                </li>
+                                <li>
+                                    <a href="{% url "news:news_list" %}">همه اخبار</a>
+                                </li>
+                                {% if request.GET.q %}
+                                    <li>
+                                        - <a href="/search/news?q={{ request.GET.q }}">{{ request.GET.q }}</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            </section>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block content %}
+    <div class="section-space-bottom-less30 pt-10">
+        <div class="container">
+            <div class="row">
+                {% if page_obj %}
+
+                    <div class="col-lg-8 col-md-12">
+                        <div class="row">
+                            {% for news in page_obj %}
+
+                                <div class="col-xl-12 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="media media-none--lg mb-30">
+                                        <div class="position-relative width-40">
+                                            <a href="{{ news.get_url }}" class="img-opacity-hover img-overlay-70">
+                                                <img src="{{ news.get_image_or_default }}" alt="{{ news.title }}"
+                                                     class="img-fluid">
+                                            </a>
+                                            <div class="topic-box-top-xs">
+                                                <div class="topic-box-sm color-cod-gray mb-20">{{ news.categories.last.title }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="media-body p-mb-none-child media-margin30">
+                                            <div class="post-date-dark">
+                                                <ul>
+                                                    <li>
+                                                        <span>توسط</span>
+                                                        <a href="{% url 'author:author_list' news.author.username %}">{{ news.author.get_full_name }}</a>
+                                                    </li>
+                                                    <li>
+                                                        <span>
+                                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                        </span>{{ news.jtime }}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <h3 class="title-semibold-dark size-lg mb-15">
+                                                <a href="{{ news.get_url }}">{{ news.title }}</a>
+                                                {% if news.is_special %}
+                                                    <span class="badge badge-danger" style="color:#ffffff">ویژه</span>
+                                                {% endif %}
+                                            </h3>
+                                            <p>{{ news.description|safe|truncatewords:23 }} <a
+                                                    href="{{ news.get_url }}">ادامه
+                                                خبر</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-lg-8 col-md-12">
+                        <p class="alert-danger text-center">خبر مورد نطر یافت نشد</p>
+                    </div>
+                {% endif %}
+                {% block sidebar %}
+                    {% render_partial "news_site.views.sidebar" %}
+                {% endblock %}
+            </div>
+        </div>
+
+
+
+        {% if page_obj %}
+
+            <div class="row mt-20-r mb-30">
+                <div class="col-sm-6 col-12">
+                    <div class="pagination-btn-wrapper text-center--xs mb15--xs">
+                        <ul>
+                            {% for page in paginator.page_range %}
+                                {% if page == page_obj.number %}
+                                    <li class="active"><a href="?page={{ page }}">{{ page }}</a></li>
+                                {% else %}
+                                    <li><a href="?page={{ page }}">{{ page }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-12">
+                    <div class="pagination-result text-left pt-10 text-center--xs">
+                        <p class="mb-none">صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}</p>
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
+    </div>
+
+{% endblock %}

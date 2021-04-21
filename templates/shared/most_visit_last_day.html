@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-12">
+        <div class="topic-border color-cinnabar mb-30 width-100">
+            <div class="topic-box-lg color-cinnabar">پربازدیدترین اخبار 24 ساعت گذشته</div>
+        </div>
+    </div>
+    {% for news in most_visit_last_day %}
+        <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="img-overlay-70 img-scale-animate mb-30">
+            <div class="mask-content-xs">
+                <div class="post-date-light d-none d-sm-block">
+                    <ul>
+                        <li>
+                            <span>توسط</span>
+                            <a href="{% url 'author:author_list' news.author.username %}">{{ news.author.get_full_name }}</a>
+                        </li>
+                        <li>
+                                                            <span>
+                                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                            </span>{{ news.jtime_date }}
+                        </li>
+                    </ul>
+                </div>
+                <h3 class="title-medium-light">
+                    <a href="{{ news.get_url }}">{{ news.title }}</a>
+                </h3>
+            </div>
+            <a href="{{ news.get_url }}" ><img src="{{ news.get_image_or_default }}" alt="{{ news.title }}" class="img-fluid width-100"></a>
+            <div class="topic-box-top-sm">
+                <div class="topic-box-sm color-cod-gray mb-20">{{ news.category_to_str }}</div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

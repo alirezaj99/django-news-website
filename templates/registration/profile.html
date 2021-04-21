@@ -1,0 +1,47 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block title %}{% block title_header %}
+    پروفایل
+{% endblock %}{% endblock %}
+
+{% block content %}
+
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title mb-0 float-left">پروفایل</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div style="margin: 20px 0" class="col-6">
+                            {{ form.username|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-6">
+                            {{ form.email|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-6">
+                            {{ form.first_name|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-6">
+                            {{ form.last_name|add_class:"form-control"|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-6">
+                            {{ form.special_user|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-6">
+                            {{ form.is_author|as_crispy_field }}
+                        </div>
+                        <div style="margin: 20px 0" class="col-6">
+                            <button class="btn btn-success" type="submit">ویرایش اطلاعات</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

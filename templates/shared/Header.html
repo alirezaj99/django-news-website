@@ -1,0 +1,108 @@
+{% load static %}
+{% load render_partial %}
+{% load jalali_tags %}
+
+<header>
+    <div id="header-layout2" class="header-style5">
+        <div class="header-top-bar">
+            <div class="top-bar-top bg-primarytextcolor box-layout">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-12">
+                            <ul class="news-info-list text-center--md">
+                                <li>
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i>ایران
+                                </li>
+                                <li>
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>{{ date }}
+                                </li>
+                                <li>
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>ساعت {{ time|to_jalali:'%H:%M' }}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-3 d-none d-lg-block">
+                            <ul class="header-social">
+                                {% if setting.facebook %}
+                                    <li>
+                                        <a target="_blank" href="https://facebook.com/{{ setting.facebook }}"
+                                           title="{{ setting.facebook }}">
+                                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                {% if setting.instagram %}
+                                    <li>
+                                        <a target="_blank" href="https://instagram.com/{{ setting.instagram }}"
+                                           title="{{ setting.instagram }}">
+                                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if setting.twitter %}
+                                    <li>
+                                        <a target="_blank" href="https://twitter.com/{{ setting.twitter }}"
+                                           title="twitter">
+                                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                {% if setting.youtube %}
+                                    <li>
+                                        <a target="_blank" href="https://youtube.com/{{ setting.youtube }}"
+                                           title="{{ setting.youtube }}">
+                                            <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if setting.linkedin %}
+                                    <li>
+                                        <a target="_blank" href="https://linkedin.com/{{ setting.linkedin }}"
+                                           title="{{ setting.linkedin }}">
+                                            <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if setting.telegram %}
+                                    <li>
+                                        <a target="_blank" href="https://t.me/{{ setting.telegram }}"
+                                           title="{{ setting.telegram }}">
+                                            <i class="fa fa-telegram" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="bg-body box-layout">
+                    <div class="top-bar-bottom pt-20 pb-20 d-none d-lg-block">
+                        <div class="row d-flex align-items-center">
+                            <div class="col-lg-4 col-md-12">
+                                <div class="ne-banner-layout1">
+                                    <a href="{% url 'home_page' %}">
+                                        <img src="{{ setting.get_image_or_default }}" alt="{{ setting.site_title }}"
+                                             class="img-fluid">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-md-12">
+                                <div class="ne-banner-layout1">
+                                    <a target="_blank" href="{{ ad.link_header_ad }}">
+                                        <img src="{{ ad.get_image_or_default_header_ad }}" alt="{{ ad.title_header_ad }}"
+                                             class="img-fluid">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% render_partial "news_site.views.menu_category_partial" %}
+    </div>
+</header>

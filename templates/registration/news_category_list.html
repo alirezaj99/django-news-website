@@ -1,0 +1,108 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}{% block title_header %}
+    لیست دسته بندی های اخبار
+{% endblock %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            {% if page_obj %}
+                <div class="card">
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover">
+                            <thead style="background-color:#7adeee">
+                            <tr class="text-center">
+                                <th>عنوان دسته</th>
+                                <th>زیردسته ی</th>
+                                <th>عنوان در url</th>
+                                <th>پوزیشن</th>
+                                <th>وضعیت</th>
+                                {% if user.is_superuser %}
+                                    <th>ویرایش</th>
+                                {% endif %}
+                                {% if user.is_superuser %}
+                                    <th>حذف</th>
+                                {% endif %}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for category in page_obj %}
+                                <tr class="text-center">
+                                    {% if user.is_superuser %}
+                                        <td>
+                                            <a href="{% url 'account:news_category_update' category.pk %}">{{ category.title }}</a>
+                                        </td>
+                                    {% else %}
+                                        <td>{{ category.title }}</td>
+                                    {% endif %}
+
+                                    <td>{% if category.parent == None %}
+                                        <b>{{ category.title }} </b> سر دسته است
+                                        {% else %}
+                                        {{ category.parent }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ category.name }}</td>
+                                    <td>{{ category.position }}</td>
+                                    <td>
+                                        {% if category.active == True %}
+                                            <i style="color: green" class="fa fa-check-circle"></i>
+                                        {% else %}
+                                            <i style="color: red" class="fa fa-minus-circle"></i>
+                                        {% endif %}
+                                    </td>
+                                    {% if user.is_superuser %}
+                                        <td>
+                                            <a href="{% url 'account:news_category_update' category.pk %}">
+                                                <button class="btn btn-primary">ویرایش</button>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'account:news_category_delete' category.pk %}">
+                                                <button class="btn btn-danger">حذف</button>
+                                            </a>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            {% else %}
+                <h4 class="alert alert-danger"> محتوایی برای نمایش وجود ندارد </h4>
+            {% endif %}
+            <!-- /.card -->
+        {% if page_obj %}
+
+                <div class="row mt-20-r mb-30">
+                    <div class="col-sm-6 col-12">
+                        <div class="pagination-btn-wrapper text-center--xs mb15--xs">
+                            <ul>
+                                {% for page in paginator.page_range %}
+                                    {% if page == page_obj.number %}
+                                        <li class="btn btn-dark" style="display: inline-block"><a style="color: #23ff27"
+                                                                                                  href="?page={{ page }}">{{ page }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="btn btn-dark" style="display: inline-block"><a style="color: #fff"
+                                                                                                  href="?page={{ page }}">{{ page }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12">
+                        <div class="pagination-result text-left pt-10 text-center--xs">
+                            <p class="mb-none">صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+        </div>
+    </div>{% endblock %}

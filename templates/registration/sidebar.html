@@ -1,0 +1,237 @@
+{% url "account:home" as home_url %}
+{% url 'account:news_create' as news_create %}
+{% url 'account:profile' as profile %}
+{% url 'account:main_news' as main_news %}
+{% url 'account:tags_create' as tags_create %}
+{% url 'account:tags_list' as tags_list %}
+{% url 'account:gallery_create' as gallery_create %}
+{% url 'account:gallery_list' as gallery_list %}
+{% url 'account:image_gallery_list' as image_gallery_list %}
+{% url 'account:image_gallery_create' as image_gallery_create %}
+{% url 'account:settings_list' as settings_list %}
+{% url 'account:news_comment_list' as news_comment_list %}
+{% url 'account:advertise_list' as advertise_list %}
+{% url 'account:news_category_list' as news_category_list %}
+{% url 'account:news_category_create' as news_category_create %}
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{% url 'account:home' %}" class="brand-link">
+        <i class="fa fa-user-cog px-2"></i>
+        <span class="brand-text text-right">پنل مدیریت</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="info">
+                <a target="_blank" href="{% url 'author:author_list' user.username %}"
+                   class="d-block">نام کاربر : </a>
+            </div>
+            <div class="info">
+                <a target="_blank" href="{% url 'author:author_list' user.username %}"
+                   class="d-block">{{ user.get_full_name }}</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                     with font-awesome or any other icon font library -->
+                {% if user.is_superuser or user.is_author %}
+                    {% if user.is_superuser %}
+                        <li class="nav-item has-treeview">
+                            <a href="{{ main_news }}"
+                               class="nav-link {% if request.path == main_news %}active{% endif %}">
+                                <i class="nav-icon fa fa-newspaper"></i>
+                                <p>
+                                    اخبار اصلی سایت
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ main_news }}"
+                                       class="nav-link {% if request.path == main_news %}active{% endif %}">
+                                        <i class="fa fa-list nav-icon"></i>
+                                        <p>لیست اخبار اصلی</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item has-treeview">
+                        <a href="{{ home_url }}"
+                           class="nav-link {% if request.path == home_url or request.path == news_create or request.path == news_comment_list %}active{% endif %}">
+                            <i class="nav-icon fas  fa fa-newspaper"></i>
+                            <p>
+                                اخبار
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ home_url }}"
+                                   class="nav-link {% if request.path == home_url %}active{% endif %}">
+                                    <i class="fa fa-list nav-icon"></i>
+                                    <p>لیست اخبار</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+
+
+                                <a href="{{ news_create }}"
+                                   class="nav-link {% if request.path == news_create %}active{% endif %}">
+                                    <i class="fa fa-edit nav-icon"></i>
+                                    <p>ایجاد خبر</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+
+
+                                <a href="{{ news_comment_list }}"
+                                   class="nav-link {% if request.path == news_comment_list %}active{% endif %}">
+                                    <i class="fa fa-comment nav-icon"></i>
+                                    <p>نظرات اخبار</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% if user.is_superuser %}
+                        <li class="nav-item has-treeview">
+                            <a href="{{ news_category_list }}"
+                               class="nav-link {% if request.path == news_category_list or request.path == news_category_create %}active{% endif %}">
+                                <i class="fa fa-list-alt nav-icon"></i>
+                                <p>
+                                    دسته بندی اخبار
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ news_category_list }}"
+                                       class="nav-link {% if request.path == news_category_list %}active{% endif %}">
+                                        <i class="fas fa-list"></i>
+                                        <p>لیست دسته بندی ها</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ news_category_create }}"
+                                       class="nav-link {% if request.path == news_category_create %}active{% endif %}">
+                                        <i class="fas fa-list"></i>
+                                        <p>ایجاد دسته بندی</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item has-treeview">
+                        <a href="{{ tags_create }}"
+                           class="nav-link {% if request.path == tags_create or request.path == tags_list %}active{% endif %}">
+                            <i class="fa fa-tags nav-icon"></i>
+                            <p>
+                                تگ ها / برچسب ها
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ tags_list }}"
+                                   class="nav-link {% if request.path == tags_list %}active{% endif %}">
+                                    <i class="fas fa-list"></i>
+                                    <p>لیست تگ ها / برچسب ها</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ tags_create }}"
+                                   class="nav-link {% if request.path == tags_create %}active{% endif %}">
+                                    <i class="fas fa-edit"></i>
+                                    <p>ایجاد تگ / برچسب</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="{{ gallery_create }}"
+                           class="nav-link {% if request.path == gallery_create or request.path == gallery_list or request.path == image_gallery_list or request.path == image_gallery_create %}active{% endif %}">
+                            <i class="fa fa-images nav-icon"></i>
+                            <p>
+                                گالری تصاویر
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ gallery_list }}"
+                                   class="nav-link {% if request.path == gallery_list %}active{% endif %}">
+                                    <i class="fas fa-list"></i>
+                                    <p>لیست گالری تصاویر</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ gallery_create }}"
+                                   class="nav-link {% if request.path == gallery_create %}active{% endif %}">
+                                    <i class="fas fa-edit"></i>
+                                    <p>ایجاد گالری تصاویر</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ image_gallery_list }}"
+                                   class="nav-link {% if request.path == image_gallery_list %}active{% endif %}">
+                                    <i class="fas fa-list"></i>
+                                    <p>لیست تصاویر</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ image_gallery_create }}"
+                                   class="nav-link {% if request.path == image_gallery_create %}active{% endif %}">
+                                    <i class="fas fa-list"></i>
+                                    <p>ایجاد تصویر</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% if user.is_superuser %}
+                        <li class="nav-item">
+                            <a href="{{ advertise_list }}"
+                               class="nav-link {% if request.path == advertise_list %}active{% endif %}">
+                                <i class="nav-icon fas fa-ad"></i>
+                                <p>
+                                    تبلیغات سایت
+                                    {#                                    <span class="right badge badge-danger"></span>#}
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ settings_list }}"
+                               class="nav-link {% if request.path == settings_list %}active{% endif %}">
+                                <i class="nav-icon fas fa-cog"></i>
+                                <p>
+                                    تنظیمات سایت
+                                    <span class="right badge badge-danger">ضروری</span>
+                                </p>
+                            </a>
+                        </li>
+
+                    {% endif %}
+                {% endif %}
+
+                <li class="nav-item">
+                    <a href="{{ profile }}" class="nav-link {% if request.path == profile %}active{% endif %}">
+                        <i class="nav-icon fas fa-user-edit"></i>
+                        <p>
+                            پروفایل
+                            <span class="right badge badge-danger">جدید</span>
+                        </p>
+                    </a>
+                </li>
+
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

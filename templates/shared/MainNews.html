@@ -1,0 +1,80 @@
+{% if main_news %}
+    <section class="container">
+        <div class="bg-body box-layout">
+            <div class="section-space-bottom-less4">
+                <div class="row tab-space2">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="row tab-space2">
+                            <div class="col-sm-12 col-12">
+                                <div class="img-overlay-70 img-scale-animate mb-4">
+                                    <div class="mask-content-sm">
+                                        <div class="topic-box-sm color-cod-gray mb-10">{{ main_news.news.category_to_str }}</div>
+                                        <h1 class="title-medium-light">
+                                            <a href={{ main_news.news.get_url }}>{{ main_news.news.title }}</a>
+                                        </h1>
+                                    </div>
+                                    <img src="{{ main_news.news.get_image_or_default }}" alt="news"
+                                         class="img-fluid width-100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="row tab-space3">
+                            <div class="col-sm-6 col-12">
+                                <div class="img-overlay-70 img-scale-animate mb-4">
+                                    <div class="mask-content-sm">
+                                        <div class="topic-box-sm color-cod-gray mb-10">{{ main_news.news_1.category_to_str }}</div>
+                                        <h3 class="title-medium-light">
+                                            <a href={{ main_news.news_1.get_url }}>{{ main_news.news_1.title }}</a>
+                                        </h3>
+                                    </div>
+                                    <img src="{{ main_news.news_1.get_image_or_default }}" alt="news"
+                                         class="img-fluid width-100">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-12">
+                                <div class="img-overlay-70 img-scale-animate mb-4">
+                                    <div class="mask-content-sm">
+                                        <div class="topic-box-sm color-cod-gray mb-10">{{ main_news.news_3.category_to_str }}</div>
+                                        <h3 class="title-medium-light">
+                                            <a href={{ main_news.news_3.get_url }}>{{ main_news.news_3.title }}</a>
+                                        </h3>
+                                    </div>
+                                    <img src="{{ main_news.news_3.get_image_or_default }}" alt="news"
+                                         class="img-fluid width-100">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-12">
+                                <div class="img-overlay-70 img-scale-animate mb-4">
+                                    <div class="mask-content-sm">
+                                        <div class="topic-box-sm color-cod-gray mb-10">{{ main_news.news_2.category_to_str }}</div>
+                                        <h3 class="title-medium-light">
+                                            <a href={{ main_news.news_2.get_url }}>{{ main_news.news_2.title }}</a>
+                                        </h3>
+                                    </div>
+                                    <img src="{{ main_news.news_2.get_image_or_default }}" alt="news"
+                                         class="img-fluid width-100">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-12">
+                                <div class="img-overlay-70 img-scale-animate mb-4">
+                                    <div class="mask-content-sm">
+                                        <div class="topic-box-sm color-cod-gray mb-10">{{ main_news.news_4.category_to_str }}</div>
+                                        <h3 class="title-medium-light">
+                                            <a href={{ main_news.news_4.get_url }}>{{ main_news.news_4.title }}</a>
+                                        </h3>
+                                    </div>
+                                    <img src="{{ main_news.news_4.get_image_or_default }}" alt="news"
+                                         class="img-fluid width-100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endif %}

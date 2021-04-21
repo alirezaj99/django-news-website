@@ -1,0 +1,146 @@
+{% load static %}
+<div class="ne-sidebar sidebar-break-md col-lg-4 col-md-12">
+    <div class="sidebar-box">
+        <div class="topic-border color-cod-gray mb-30">
+            <div class="topic-box-lg color-cod-gray">جستجو کنید</div>
+        </div>
+        <div class="pull-left mb-25">
+            <form action="{% url 'news:news_search' %}">
+                <input
+                        style="border-radius: 5px;border: 3px solid  #ff2e2e;padding:4px 35px"
+                        type="text" required="required"
+                        placeholder="جستـجو خبر ..."
+                        value="{{ request.GET.q }}"
+                        name="q"/>
+                <button type="submit" class="float-left"
+                        style="background-color: #ff2e2e;border: none;border-radius: 5px;padding:7px 10px;margin-right: 30px">
+                    <i style="color: #ffffff" class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+    <div class="sidebar-box">
+        <div class="topic-border color-cod-gray mb-30">
+            <div class="topic-box-lg color-cod-gray">در ارتباط باشید</div>
+        </div>
+        <ul class="stay-connected mb-40 overflow-hidden">
+            <li class="facebook">
+                <a href="https://t.me/{{ setting.telegram }}"><i class="fa fa-telegram" aria-hidden="true"></i>
+                    <p>تلگرام</p></a>
+            </li>
+            <li class="twitter">
+                <a href="https://twitter.com/{{ setting.twitter }}">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <p>توییتر</p>
+                </a>
+            </li>
+            <li class="linkedin">
+                <a href="https://instagram.com/{{ setting.instagram }}"><i class="fa fa-linkedin"
+                                                                           aria-hidden="true"></i>
+                    <p>اینستاگرام</p></a>
+            </li>
+            <li class="rss">
+                <a href="https://youtube.com/{{ setting.youtube }}"><i class="fa fa-youtube-play"
+                                                                       aria-hidden="true"></i>
+                    <p>یوتیوب</p></a>
+            </li>
+        </ul>
+    </div>
+    <div class="sidebar-box">
+        <div class="ne-banner-layout1 text-center">
+            <a target="_blank" href="{{ ad.link_sidebar_ad_1 }}">
+                <img src="{{ ad.get_image_or_default_sidebar_ad_1 }}" alt="{{ ad.title_sidebar_ad_1 }}"
+                     class="img-fluid">
+            </a>
+        </div>
+    </div>
+    <div class="sidebar-box">
+        <div class="topic-border color-cod-gray mb-5">
+            <div class="topic-box-lg color-cod-gray">پربازدیدترین اخبار ماه گذشته</div>
+        </div>
+
+
+        <div class="row">
+            {% for news in most_visit_news %}
+                <div class="col-lg-6 col-md-4 col-sm-6 col-6">
+
+                    <div class="mt-25 position-relative">
+                        <div class="topic-box-top-xs">
+                            <div class="topic-box-sm color-cod-gray mb-20">{{ news.category_to_str }}</div>
+                        </div>
+                        <a href="{{ news.get_url }}" class="mb-10 display-block img-opacity-hover">
+                            <img src="{{ news.get_image_or_default }}" alt="{{ news.title }}"
+                                 class="img-fluid m-auto width-100">
+                        </a>
+                        <h3 class="title-medium-dark size-md mb-none">
+                            <a href="{{ news.get_url }}">{{ news.title|truncatewords:15 }}</a>
+                        </h3>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+    <div class="sidebar-box">
+        <div class="topic-border color-cod-gray mb-30">
+            <div class="topic-box-lg color-cod-gray">دسته ها اصلی</div>
+        </div>
+        <ul class="archive-list">
+            {% for category in categories %}
+                {% if category.parent == None %}
+                    <li>
+                        <a href="{% url "news:news_list_category" category.name %}">{{ category.title }}
+                            <span> {{ category.name }} </span>
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="sidebar-box">
+        <div class="ne-banner-layout1 text-center">
+            <a target="_blank" href="{{ ad.link_sidebar_ad_2 }}">
+                <img src="{{ ad.get_image_or_default_sidebar_ad_2 }}" alt="{{ ad.title_sidebar_ad_2 }}"
+                     class="img-fluid">
+            </a>
+        </div>
+    </div>
+    <div class="sidebar-box">
+        <div class="topic-border color-cod-gray mb-5">
+            <div class="topic-box-lg color-cod-gray">اخبار جدید</div>
+        </div>
+        <div class="row">
+            {% for news in news %}
+                <div class="col-lg-6 col-md-4 col-sm-6 col-6">
+
+                    <div class="mt-25 position-relative">
+                        <div class="topic-box-top-xs">
+                            <div class="topic-box-sm color-cod-gray mb-20">{{ news.category_to_str }}</div>
+                        </div>
+                        <a href="{{ news.get_url }}" class="mb-10 display-block img-opacity-hover">
+                            <img src="{{ news.get_image_or_default }}" alt="{{ news.title }}"
+                                 class="img-fluid m-auto width-100">
+                        </a>
+                        <h3 class="title-medium-dark size-md mb-none">
+                            <a href="{{ news.get_url }}">{{ news.title }}</a>
+                        </h3>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="sidebar-box">
+        <div class="ne-banner-layout1 text-center">
+            <a target="_blank" href="{{ ad.link_sidebar_ad_3 }}">
+                <img src="{{ ad.get_image_or_default_sidebar_ad_3 }}" alt="{{ ad.title_sidebar_ad_3 }}"
+                     class="img-fluid">
+            </a>
+        </div>
+    </div>
+
+
+</div>

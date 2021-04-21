@@ -1,0 +1,20 @@
+<section class="container">
+    <div class="bg-body box-layout">
+        <div class="row no-gutters d-flex align-items-center">
+            <div class="col-lg-2 col-md-3 col-sm-4 col-5">
+                <div class="topic-box mt-4 mb-5">اخبار داغ</div>
+            </div>
+            <div class="col-lg-10 col-md-9 col-sm-8 col-7">
+                <div class="feeding-text-dark2">
+                    <ol id="sample" class="ticker">
+                        {% for news in news %}
+                            <li>
+                                <a href="{{ news.get_url }}">{{ news.title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

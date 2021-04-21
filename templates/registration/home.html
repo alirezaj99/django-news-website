@@ -1,0 +1,132 @@
+{% extends 'registration/base.html' %}
+{% block title %}{% block title_header %}
+    لیست اخبار
+{% endblock %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            {% if object_list %}
+                <div class="card">
+                    {#                <div class="card-header">#}
+                    {#                    <h3 class="card-title">Responsive Hover Table</h3>#}
+                    {##}
+                    {#                    <div class="card-tools">#}
+                    {#                        <div class="input-group input-group-sm" style="width: 150px;">#}
+                    {#                            <input type="text" name="table_search" class="form-control float-right"#}
+                    {#                                   placeholder="Search">#}
+                    {##}
+                    {#                            <div class="input-group-append">#}
+                    {#                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+                    {#                </div>#}
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover">
+                            <thead style="background-color:#7adeee">
+                            <tr>
+                                <th>عنوان خبر</th>
+                                <th>تصویر بند انگشتی</th>
+                                <th>دسته بندی</th>
+                                <th>نویسنده</th>
+                                <th>خلاصه متن</th>
+                                <th>زمان انتشار</th>
+                                <th>خبر ویژه</th>
+                                <th>وضعیت</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for news in page_obj %}
+                                <tr>
+                                    <td>
+                                        {% if news.status in 'bd'|make_list or user.is_superuser %}
+                                            <a href="{% url 'account:news_update' news.pk %}">{{ news.title }}</a>
+                                        {% else %}
+                                            {{ news.title }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ news.show_image_in_admin }}</td>
+                                    <td>{{ news.category_to_str }}</td>
+                                    <td>{{ news.author.get_full_name }}</td>
+                                    <td>{{ news.description|truncatewords:30|safe }}</td>
+                                    <td>{{ news.jtime }}</td>
+                                    <td>{% if news.is_special %}
+                                        <i style="color: green" class="fa fa-check-circle"></i>
+                                    {% else %}
+                                        <i style="color: red" class="fa fa-minus-circle"></i>
+
+                                    {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if news.status == "p" %}
+                                            <span class="badge badge-success">منتشر شده</span>
+                                            <a target="_blank" href="{{ news.get_url }}"
+                                               class="badge badge-primary">نمایش خبر</a>
+                                        {% elif news.status == "i" %}
+                                            <span class="badge badge-primary">درحال بررسی</span>
+                                            {% if user.is_superuser %}
+                                                <a target="_blank" href="{% url 'news:news_preview' news.id %}"
+                                                   class="badge badge-info">پیش نمایش خبر</a>
+                                            {% endif %}
+                                        {% else %}
+                                            {% if news.status == "d" %}
+                                                <span class="badge badge-danger">پیش نویس</span><br>
+                                            {% else %}
+                                                <span class="badge badge-warning">برگشت داده شده</span><br>
+                                            {% endif %}
+                                            <a target="_blank" href="{% url 'news:news_preview' news.id %}"
+                                               class="badge badge-info">پیش نمایش خبر</a>
+                                        {% endif %}
+                                        <br>
+                                        {% if user.is_superuser %}
+                                            <a class="badge text-danger" href="{% url 'account:news_delete' news.pk %}">حذف
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+
+
+            {% else %}
+                <h4 class="alert alert-danger"> محتوایی برای نمایش وجود ندارد </h4>
+            {% endif %}
+            <!-- /.card -->
+            {% if page_obj %}
+
+                <div class="row mt-20-r mb-30">
+                    <div class="col-sm-6 col-12">
+                        <div class="pagination-btn-wrapper text-center--xs mb15--xs">
+                            <ul>
+                                {% for page in paginator.page_range %}
+                                    {% if page == page_obj.number %}
+                                        <li class="btn btn-dark" style="display: inline-block"><a style="color: #23ff27"
+                                                                                                  href="?page={{ page }}">{{ page }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="btn btn-dark" style="display: inline-block"><a style="color: #fff"
+                                                                                                  href="?page={{ page }}">{{ page }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12">
+                        <div class="pagination-result text-left pt-10 text-center--xs">
+                            <p class="mb-none">صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>{% endblock %}

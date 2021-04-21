@@ -1,0 +1,70 @@
+{% load widget_tweaks %}
+<div class="leave-comments">
+    <h2 class="title-semibold-dark size-xl mb-40">ارسال دیدگاه</h2>
+    <form id="leave-comments" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4 col-sm-12">
+                <div class="form-group">
+                    {{ form.name }}
+                    <div class="help-block with-errors">
+                        {% if form.name.errors %}
+                            <div class="errors">
+                                {% for error in form.name.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <div class="form-group">
+                    {{ form.email|add_class:'form-control  ltr_input' }}
+                    <div class="help-block with-errors">
+                        {% if form.email.errors %}
+                            <div class="errors">
+                                {% for error in form.email.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <div class="form-group">
+                    {{ form.web_site|add_class:'form-control  ltr_input' }}
+                    <div class="help-block with-errors">
+                        {% if form.web_site.errors %}
+                            <div class="errors">
+                                {% for error in form.web_site.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    {{ form.message|add_class:'textarea form-control' }}
+                    <div class="help-block with-errors">
+                        {% if form.message.errors %}
+                            <div class="errors">
+                                {% for error in form.message.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group mb-none">
+                    <button type="submit" class="btn-ftg-ptp-45">ارسال دیدگاه</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,84 @@
+{% extends 'shared/_Mainlayout.html' %}
+{% load static %}
+{% block title %}گالری تصاویر{% endblock %}
+{% block page_option %}
+
+    <section class="container">
+        <div class="bg-body box-layout ">
+
+            <section class="breadcrumbs-area"
+                     style="background-image: url({{ image_gallery.first.gallery.image.url }})">
+                <div class="container">
+                    <div class="breadcrumbs-content">
+                        <h1>{{ image_gallery.first.gallery.title }}</h1>
+                        <ul>
+                            <li>
+                                <a href="{% url "home_page" %}">خانه</a> -
+                            </li>
+                            <li>
+                                <a href="{% url "gallery:gallery_list" %}">گالری تصاویر</a> -
+                            </li>
+                            <li>
+                                <a href="{% url "gallery:gallery_detail" image_gallery.first.gallery.id %}">{{ image_gallery.first.gallery.title }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+{% endblock %}
+{% block content %}
+    <section class="bg-body section-space-default">
+        <div class="col-md-12 mb-30">
+            <h1>{{ image_gallery.first.gallery.title }}</h1>
+            <p><span style="font-size: 16px"> <i style="font-size: 16px" class="fa fa-calendar"
+                                                 aria-hidden="true"></i> {{ image_gallery.first.gallery.jtime_date }}</span>
+                <span style="font-size: 16px"> <i style="font-size: 16px;" class="fa fa-camera"
+                                                  aria-hidden="true"></i> {{ image_gallery.first.gallery.photographer }}</span>
+            </p>
+
+            <p class="text-justify">{{ image_gallery.first.gallery.description|safe }}</p>
+        </div>
+        <div class="container menu-list-wrapper">
+
+            <div class="row zoom-gallery menu-list">
+                {% for image in image_gallery %}
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12 menu-item">
+                        <div class="gallery-layout-1 mb-40 border-bottom pb-10">
+
+
+                            <div class="popup-icon-hover img-overlay-hover mb-30">
+                                <a class="" href="{{ image.image.url }}">
+                                    <img src="{{ image.image.url }}" alt="{{ image.gallery.title }}"
+                                         class="width-100 img-fluid">
+                                </a>
+                                <a href="{{ image.image.url }}" class="ne-zoom img-popup-icon">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </a>
+
+                            </div>
+
+
+                            <div class="post-date-dark">
+                                <ul>
+                                    <li>
+                                        <span>عکاس:</span>
+                                        {{ image.gallery.photographer }}
+                                    </li>
+                                    <li>
+                                            <span>
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            </span>{{ image.gallery.jtime_date }}
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

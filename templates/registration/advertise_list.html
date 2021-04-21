@@ -1,0 +1,75 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}{% block title_header %}
+    لیست تبلیغات سایت
+{% endblock %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            {% if page_obj %}
+                <div class="card">
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover">
+                            <thead style="background-color:#7adeee">
+                            <tr class="text-center">
+                                <th>عنوان تبلیغ هدر</th>
+                                <th>تبلیغ هدر</th>
+                                <th>عنوان تبلیغ سایدبار 1</th>
+                                <th>تبلیغ سایدبار 1</th>
+                                <th>عنوان تبلیغ سایدبار 2</th>
+                                <th>تبلیغ سایدبار 2</th>
+                                <th>عنوان تبلیغ سایدبار 3</th>
+                                <th>تبلیغ سایدبار 3</th>
+                                <th>وضعیت</th>
+                                {% if user.is_superuser %}
+                                    <th>ویرایش</th>
+                                {% endif %}
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for ad in page_obj %}
+                                <tr>
+                                    <td>{{ ad.title_header_ad }}</td>
+                                    <td><img style='border-radius: 5px' width=150px height=30px
+                                             src='{{ ad.header_ad.url }}'></td>
+                                    <td>{{ ad.title_sidebar_ad_1 }}</td>
+                                    <td><img style='border-radius: 5px' width=90px height=70px
+                                             src='{{ ad.sidebar_ad_1.url }}'></td>
+                                    <td>{{ ad.title_sidebar_ad_2 }}</td>
+                                    <td><img style='border-radius: 5px' width=90px height=70px
+                                             src='{{ ad.sidebar_ad_2.url }}'></td>
+                                    <td>{{ ad.title_sidebar_ad_3 }}</td>
+                                    <td><img style='border-radius: 5px' width=90px height=70px
+                                             src='{{ ad.sidebar_ad_3.url }}'></td>
+                                    <td>
+                                        {% if ad.active == True %}
+                                            <i style="color: green" class="fa fa-check-circle"></i>
+                                        {% else %}
+                                            <i style="color: red" class="fa fa-minus-circle"></i>
+                                        {% endif %}
+                                    </td>
+                                    {% if user.is_superuser %}
+                                        <td>
+                                            <a href="{% url 'account:advertise_update' ad.pk %}">
+                                                <button class="btn btn-primary">ویرایش</button>
+                                            </a>
+                                        </td>
+                                    {% endif %}
+
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            {% else %}
+                <h4 class="alert alert-danger"> محتوایی برای نمایش وجود ندارد </h4>
+            {% endif %}
+            <!-- /.card -->
+        </div>
+    </div>{% endblock %}

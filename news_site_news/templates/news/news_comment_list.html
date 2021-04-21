@@ -1,0 +1,22 @@
+<div class="comments-area">
+    {% if comment %}
+        <h2 class="title-semibold-dark size-xl border-bottom mb-40 pb-20">{{ comment_count }} دیدگاه</h2>
+        <ul>
+            {% for comment in comment %}
+                <li>
+                    <div class="media media-none-xs">
+                        <div class="media-body comments-content media-margin30">
+                            <h3 class="title-dark">
+                                {{ comment.name }} ،
+                                <span>{{ comment.jtime_date }}</span>
+                            </h3>
+                            <p>{{ comment.message }}</p>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="alert alert-warning text-center">هنوز دیدگاهی ثبت نشده است</p>
+    {% endif %}
+</div>
